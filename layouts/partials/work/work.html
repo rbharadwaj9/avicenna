@@ -1,0 +1,49 @@
+{{ $content_type := .Params.content_type }}
+{{ $workPage := .Site.GetPage $content_type }}
+
+{{ $work_items := $workPage.Params.work_items }}
+{{ $show_work_icons := $workPage.Params.show_work_icons }}
+
+{{ $default_work_icon := "" }}
+{{ if $show_work_icons }}
+{{ $default_work_icon = $workPage.Params.default_work_icon }}
+{{ end }}
+
+{{ $work_icon := $default_work_icon }}
+
+{{ $num_work_to_show := $workPage.Params.num_items_show }}
+<div class="academia col">
+    <!-- <h4 class="main_color">Experience</h4> -->
+    {{range $work := $work_items}}
+    <div class="row">
+        <div class="course col">
+            <div class="institution_dates row">
+                <div class="institution col" id="institution_title">
+                    {{$work.position.name}}
+                </div>
+                <div class="main_color dates col-md-auto  justify-content-end">
+                    {{$work.position.start_date}}
+                    {{ if $work.position.end_date }}
+                    - {{$work.position.end_date}}
+                    {{else}}
+                    - present
+                    {{end}}
+                </div>
+            </div>
+            <div class="degree_major row">
+                <div class="text-muted col">
+                    {{$work.position.company_name}}
+                </div>
+            </div>
+
+            {{if $work.position.summary}}
+            <div class="other_info row text-muted">
+                <div class="col">
+                    {{ $work.position.summary |  $.Page.RenderString }}
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    {{end}}
+</div>
